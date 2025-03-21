@@ -11,11 +11,11 @@ export default function CarPanel() {
     const [carResponse,setCarResponse]=useState<CarJson|null>(null)
 
     useEffect(()=>{
-        const feetchData = async()=>{
+        const fetchData = async()=>{
             const cars = await getCars()
             setCarResponse(cars)
         }
-        feetchData()
+        fetchData()
     },[])
 
 
@@ -40,15 +40,15 @@ export default function CarPanel() {
     /**
      * Mock Data for Demonstration Only
      */
-    /*
+    
     const mockCarRepo = [
         {cid: "001", name: "Honda Civic", image: "/img/civic.jpg"},
         {cid: "002", name: "Honda Accord", image: "/img/accord.jpg"},
         {cid: "003", name: "Toyota Fortuner", image: "/img/fortuner.jpg"},
         {cid: "004", name: "Tesla Model 3", image: "/img/tesla.jpg"}
     ]
-*/
-    if(!carResponse) return (<p>Car Panel is Loading ...</p>)
+
+    if(!carResponse) return (<p>Co-working Space Panel is Loading ...</p>)
 
     return (
         <div>
@@ -56,9 +56,9 @@ export default function CarPanel() {
             flexDirection:"row", alignContent:"space-around",
             justifyContent:"space-around", flexWrap:"wrap", padding:"10px"}}>
                 {
-                    carResponse.data.map((carItem:CarItem)=>(
-                        <Link href={`/car/${carItem.id}`} className='w-1/5' key={carItem.id}>
-                        <ProductCard carName={carItem.model} imgSrc={carItem.picture}
+                    mockCarRepo.map((carItem)=>(
+                        <Link href={`/coworking-space/${carItem.cid}`} className='w-1/5' key={carItem.cid}>
+                        <ProductCard carName={carItem.name} imgSrc={carItem.image}
                         onCompare={ (car:string)=>dispatchCompare({type:'add', carName:car}) }
                         />
                         </Link>
