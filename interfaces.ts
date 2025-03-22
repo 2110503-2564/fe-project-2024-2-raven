@@ -29,3 +29,33 @@ export interface ReservationItem{
   returnDate: string,
   returnLocation: string
 }
+
+export interface CoworkingSpaceItem {
+  _id: string,
+  name: string,
+  description: string,
+  picture: string,
+  address: string,
+  district: string,
+  province: string,
+  postalcode: string,
+  tel: string,
+  open_close_time: string,
+  __v: number,
+  id: string,
+}
+
+export interface CoworkingSpaceJson {
+  success: boolean,
+  count: number,
+  pagination: Object,
+  data: CoworkingSpaceItem[]
+}
+
+export interface ReservationItem{
+coworkingSpaceId:string,
+coWorkingSpaceModel:string,
+numOfDays: number,
+pickupDate:string,
+returnDate: string,
+}
