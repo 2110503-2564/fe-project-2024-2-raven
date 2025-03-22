@@ -20,15 +20,7 @@ export interface CarJson {
     data: CarItem[]
   }
 
-export interface ReservationItem{
-  carId:string,
-  carModel:string,
-  numOfDays: number,
-  pickupDate:string,
-  pickupLocation: string,
-  returnDate: string,
-  returnLocation: string
-}
+
 
 export interface CoworkingSpaceItem {
   _id: string,
@@ -54,7 +46,7 @@ export interface CoworkingSpaceJson {
 
 export interface ReservationItem{
 coworkingSpaceId:string,
-coWorkingSpaceModel:string,
+coworkingSpaceName:string,
 numOfDays: number,
 pickupDate:string,
 returnDate: string,
