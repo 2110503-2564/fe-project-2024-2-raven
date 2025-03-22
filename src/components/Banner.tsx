@@ -21,8 +21,8 @@ export default function Banner() {
             objectFit='cover'
             />
             <div className={styles.bannerText}>
-                <h1 className='text-4xl font-medium'>Your Travel Partner</h1>
-                <h3 className='text-xl font-serif'>Explore Your World with Us</h3>
+                <h1 className='text-4xl font-medium'>Co-working Space</h1>
+                <h3 className='text-xl font-serif'>Find Co-working Space and Meeting Rooms</h3>
             </div>
             {
                 session? <div className='z-30 absolute top-5 right-10 font-semibold text-cyan-800 text-xl'>
@@ -33,7 +33,7 @@ export default function Banner() {
             hover:bg-cyan-600 hover:text-white hover:border-transparent'
             onClick={(e)=> {e.stopPropagation; router.push('/car')}}
             >
-                Select Your Travel Partner NOW
+                Select Your Co-working Space NOW
             </button>
         </div>
     );
