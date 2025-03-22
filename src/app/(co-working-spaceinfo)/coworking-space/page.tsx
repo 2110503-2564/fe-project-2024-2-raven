@@ -1,17 +1,17 @@
-import getCars from "@/libs/getCars"
+import getCars from "@/libs/getCoworkingSpaces"
 import CarCatalog from "@/components/CarCatalog"
 import {Suspense} from 'react'
 import { LinearProgress } from "@mui/material"
 import CarPanel from "@/components/CarPanel"
-import { CarJson } from "../../../../interfaces"
+import { CoworkingSpaceJson } from "../../../../interfaces"
 
 export default async function Car() {
-    const cars:CarJson= await getCars()
+    const coworkingSpaces:CoworkingSpaceJson= await getCars()
     return (
         <main className='text-center p-5'>
             <h1 className="text-xl font-medium">Select Your Co-working Space</h1>
             <Suspense fallback={<p>Loading...<LinearProgress/></p>}>
-            <CarCatalog carJson={cars}/>
+            <CarCatalog coworkingSpaceJson={coworkingSpaces}/>
             </Suspense>
             <hr className="my-10"/>
             <h1 className="text-xl font-medium">TRY Client-Side Co-working Space Panel</h1>
