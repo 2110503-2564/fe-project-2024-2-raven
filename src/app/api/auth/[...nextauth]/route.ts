@@ -44,6 +44,10 @@ export const authOptions:AuthOptions={
         session.user = token as any
         return session
       },
+      async redirect({ url, baseUrl }) {
+        // Always redirect to /coworking-space after sign-in
+        return `${baseUrl}/coworking-space`;
+      },
     }
 }
 const handler = NextAuth(authOptions)

@@ -1,5 +1,5 @@
 'use client'
-import DateReserve from "@/components/LocationDateReserve";
+import DateReserve from "@/components/DateReserve";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import dayjs,{ Dayjs } from "dayjs";
@@ -39,6 +39,7 @@ export default function Reservations () {
             <div className="text-xl font-medium">Co-working Space {name}</div>
             <div className="w-fit space-y-2">
                 <div className="text-md text-left text-gray-600">
+
                     Start Date</div>
                 <DateReserve onDateChange={(value:Dayjs)=>{setPickupDate(value)}}
                    />
@@ -46,6 +47,7 @@ export default function Reservations () {
                     Last Day</div>
                 <DateReserve onDateChange={(value:Dayjs)=>setReturnDate(value)}
                     />
+
                 
             </div>
             <button className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 

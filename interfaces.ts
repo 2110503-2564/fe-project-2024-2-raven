@@ -20,7 +20,10 @@ export interface CarJson {
     data: CarItem[]
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d65c6d78ac505b5e2b7444424f3de8685c308342
 
 export interface CoworkingSpaceItem {
   _id: string,
