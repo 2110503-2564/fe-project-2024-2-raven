@@ -1,10 +1,11 @@
 import Image from "next/image"
-import getCar from "@/libs/getCar"
+import getCar from "@/libs/getCoworkingSpace"
 import Link from "next/link"
+import getCoworkingSpace from "@/libs/getCoworkingSpace"
 
-export default async function CarDetailPage( {params} : { params: {cid:string}} ) {
+export default async function CoworkingSpaceDetailPage( {params} : { params: {cid:string}} ) {
     
-    const carDetail = await getCar(params.cid)
+    const carDetail = await getCoworkingSpace(params.cid)
     /*
     *   Mock Data for Demonstration Only
     */
@@ -16,18 +17,19 @@ export default async function CarDetailPage( {params} : { params: {cid:string}} 
     */
     return(
         <main className="text-center p-5">
-            <h1 className="text-lg font-medium">{carDetail.data.model}</h1>
+            <h1 className="text-lg font-medium">{carDetail.data.name}</h1>
             <div className="flex flex-row my-5">
                 <Image src={ carDetail.data.picture }
                 alt='Car Image'
                 width={0} height={0} sizes="100vw"
                 className="rounded-lg w-[30%]"/>
             <div className="text-md mx-5 text-left">{ carDetail.data.description }
-            <div>Doors: { carDetail.data.doors }</div>
-            <div>Seats: { carDetail.data.seats }</div>
-            <div>Large bags: { carDetail.data.largebags }</div>
-            <div>Small bags: { carDetail.data.smallbags }</div>
-            <div>Daily Rental Rate: { carDetail.data.dayRate } (insurance included)</div>
+            <div>Address: { carDetail.data.address }</div>
+            <div>District: { carDetail.data.district }</div>
+            <div>Province: { carDetail.data.province }</div>
+            <div>Postal Code: { carDetail.data.postalcode }</div>
+            <div>Tel. : { carDetail.data.tel }</div>
+            <div>Open-close time: { carDetail.data.open_close_time }</div>
 
             <Link href={`/reservations?id=${params.cid}&model=${carDetail.data.model}`}>
             <button className= 'block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm'>
