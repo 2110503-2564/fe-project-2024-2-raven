@@ -21,7 +21,7 @@ export default async function userLogin(userEmail: string, userPassword: string)
         // Login successful
         if (data.success && data.token) {
             // Store the token securely (e.g., localStorage)
-            localStorage.setItem("authToken", data.token);
+           // localStorage.setItem("authToken", data.token);
 
             // Return the entire data for any additional information
             return data;
