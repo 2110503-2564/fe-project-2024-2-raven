@@ -22,6 +22,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const nextAuthSession = await getServerSession(authOptions)
+  //^this from slide w10 slide21
   const session = await getServerSession(authOptions)
 
   return (
