@@ -46,7 +46,8 @@ export interface CoworkingSpaceJson {
 export interface ReservationItem{
 coworkingSpaceId:string,
 coworkingSpaceName:string,
-numOfDays: number,
+numOfHours: number,
 pickupDate:string,
-returnDate: string,
+startTime: string,
+endTime: string,
 }

@@ -11,7 +11,7 @@ export default function DateReserve ({onDateChange}
 ) {
 
     const [reserveDate, setReserveDate] = useState<Dayjs|null>(null)
-
+    
     return (
         <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-10 py-5
         flex flex-row justify-center">
@@ -20,6 +20,7 @@ export default function DateReserve ({onDateChange}
                 value={reserveDate} 
                 onChange={(value)=>{setReserveDate(value); onDateChange(value)}}
                 />
+
             </LocalizationProvider>
 
 

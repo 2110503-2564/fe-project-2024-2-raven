@@ -16,21 +16,29 @@ export default function Reservations () {
 
     const dispatch = useDispatch<AppDispatch>()
 
+    const [pickupDate, setPickupDate] = useState<Dayjs | null>(null);
+    const [startTime, setStartTime] = useState<string>(''); // HH:mm format
+    const [endTime, setEndTime] = useState<string>(''); // HH:mm format
+
     const makeReservation = () => {
-        if(cid && name && pickupDate && returnDate ) {
+  
+        if (cid && name && pickupDate && startTime && endTime) {
+            const startDateTime = dayjs(pickupDate).set('hour', parseInt(startTime.split(':')[0])).set('minute', parseInt(startTime.split(':')[1]));
+            const endDateTime = dayjs(pickupDate).set('hour', parseInt(endTime.split(':')[0])).set('minute', parseInt(endTime.split(':')[1]));
+          
+            const diffInHours = endDateTime.diff(startDateTime, 'hour');
+
             const item:ReservationItem = {
                 coworkingSpaceId:cid,
                 coworkingSpaceName:name,
-                numOfDays:returnDate.diff(pickupDate, "day"),
-                pickupDate: dayjs(pickupDate).format("YYYY/MM/DD"),
-                returnDate: dayjs(returnDate).format("YYYY/MM/DD")
-              }
-              dispatch(addReservation(item))
+                numOfHours: diffInHours,
+                pickupDate: startDateTime.toISOString(), // Use ISO format
+                startTime: startTime,
+                endTime: endTime,
+            }
+            dispatch(addReservation(item))
         }
     }
-
-    const [pickupDate,setPickupDate] = useState<Dayjs|null>(null)
-    const [returnDate,setReturnDate] = useState<Dayjs|null>(null)
 
     return (
         
@@ -42,12 +50,21 @@ export default function Reservations () {
 
                     Start Date</div>
                 <DateReserve onDateChange={(value:Dayjs)=>{setPickupDate(value)}}
-                   />
-                <div className="text-md text-left text-gray-600">
-                    Last Day</div>
-                <DateReserve onDateChange={(value:Dayjs)=>setReturnDate(value)}
-                    />
+                />
+                
+                <div className="text-md text-left text-gray-600">Start Time</div>
+                <input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                />
 
+                <div className="text-md text-left text-gray-600">End Time</div>
+                <input
+                type="time"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                />
                 
             </div>
             <button className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 
