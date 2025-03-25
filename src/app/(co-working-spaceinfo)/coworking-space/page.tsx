@@ -2,7 +2,6 @@ import { getCoworkingSpaces } from "@/libs/getCoworkingSpaces"
 import CarCatalog from "@/components/CarCatalog"
 import {Suspense} from 'react'
 import { LinearProgress } from "@mui/material"
-import CarPanel from "@/components/CarPanel"
 import { CoworkingSpaceJson } from "../../../../interfaces"
 
 export default async function Car() {
