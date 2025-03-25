@@ -5,6 +5,7 @@ import CoworkingSpace from "@/db/models/CoworkingSpace";
 import { dbConnect } from "@/db/dbConnect";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import React, { SyntheticEvent } from 'react';
 
 export default async function DashboardPage() {
     
@@ -17,7 +18,7 @@ export default async function DashboardPage() {
         const district = addCoworkingSpaceForm.get("district")
         const province = addCoworkingSpaceForm.get("province")
         const postalcode = addCoworkingSpaceForm.get("postalcode")
-        const tel = addCoworkingSpaceForm.get("postalcode")
+        const tel = addCoworkingSpaceForm.get("tel")
         const open_close_time = addCoworkingSpaceForm.get("open_close_time")
 
         try {

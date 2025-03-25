@@ -2,25 +2,26 @@ import { createSlice , PayloadAction } from '@reduxjs/toolkit'
 import { ReservationItem } from '../../../interfaces'
 
 type CartState = {
-    carItems:ReservationItem[]
+    coworkingSpaceItems:ReservationItem[]
 }
 
-const initialState:CartState = { carItems: []}
+const initialState:CartState = { coworkingSpaceItems: []}
 
 export const cartSlice = createSlice({
     name:"cart",
     initialState,
     reducers: {
         addReservation:(state,action:PayloadAction<ReservationItem>)=>{
-            state.carItems.push(action.payload)
+            state.coworkingSpaceItems.push(action.payload)
         },
         removeReservation: (state,action:PayloadAction<ReservationItem>)=>{
-            const remainItems = state.carItems.filter(obj => {
-                return ((obj.carModel !== action.payload.carModel)
+            const remainItems = state.coworkingSpaceItems.filter(obj => {
+                return ((obj.coworkingSpaceName !== action.payload.coworkingSpaceName)
                 || (obj.pickupDate!==action.payload.pickupDate)
-                ||(obj.returnDate!==action.payload.returnDate));
+                || (obj.startTime!==action.payload.startTime)
+                ||(obj.endTime!==action.payload.endTime));
             })
-            state.carItems=remainItems
+            state.coworkingSpaceItems=remainItems
         }
     }
 })

@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 export interface CarItem {
     _id: string,
     model: string,
@@ -50,4 +52,13 @@ numOfHours: number,
 pickupDate:string,
 startTime: string,
 endTime: string,
+}
+
+export interface User {
+  _id:ObjectId;
+  name:string;
+  telephone_number:string;
+  email: string;
+  role:string;
+  createdAt:Date;
 }
