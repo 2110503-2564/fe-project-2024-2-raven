@@ -4,6 +4,7 @@ import { dbConnect } from "@/db/dbConnect";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import React from 'react';
+import getUserProfile from "@/libs/getUserProfile";
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions);

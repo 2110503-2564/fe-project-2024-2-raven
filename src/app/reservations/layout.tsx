@@ -14,7 +14,7 @@ export default function ReservationLayout({ children }: ReservationLayoutProps) 
       <a href="/reservations/manage">
         <button
           style={{
-            backgroundColor: 'blue',
+            backgroundColor: 'orange',
             color: 'white',
             padding: '10px 20px',
             border: 'none',
