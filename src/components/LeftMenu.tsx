@@ -1,7 +1,7 @@
-import styles from './menu.module.css';
+import styles from './leftmenu.module.css';
 import Link from 'next/link';
 
-export default function ReservationMenu() {
+export default function Menu() {
   return (
     <div>
       <div>Menu</div>

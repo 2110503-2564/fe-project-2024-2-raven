@@ -87,7 +87,6 @@ export default function RegisterForm({ apiUrl }) {
       <select name="role" value={formData.role} onChange={handleChange}>
         <option value="user">User</option>
         <option value="admin">Admin</option>
-        <option value="moderator">Moderator</option>
         {/* Add more roles as needed */}
       </select>
       <button type="submit">Register</button>

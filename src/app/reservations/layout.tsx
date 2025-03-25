@@ -1,5 +1,5 @@
 import styles from './reservations.module.css';
-import Menu from "@/components/Menu";
+import Menu from "@/components/LeftMenu";
 import React from 'react';
 
 interface ReservationLayoutProps {

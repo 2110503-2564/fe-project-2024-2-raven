@@ -14,8 +14,7 @@ export default async function Car() {
             <CarCatalog coworkingSpaceJson={coworkingSpaces}/>
             </Suspense>
             <hr className="my-10"/>
-            <h1 className="text-xl font-medium">TRY Client-Side Co-working Space Panel</h1>
-            <CarPanel/>
+          
         </main>
     )
 }
