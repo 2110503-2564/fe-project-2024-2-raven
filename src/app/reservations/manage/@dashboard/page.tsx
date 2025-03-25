@@ -13,6 +13,7 @@ export default async function DashboardPage() {
         "use server";
         const apptDate = reservationForm.get("apptDate");
         const user = reservationForm.get("user");
+        console.log(user,'adc')
         const coworkingSpaceName = reservationForm.get("coworkingSpaceName");
         const coworkingSpaceId = reservationForm.get("coworkingSpaceId");
         const numOfHours = reservationForm.get("numOfHours");
