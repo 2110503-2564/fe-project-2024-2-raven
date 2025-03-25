@@ -1,145 +1,96 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import getUserProfile from "@/libs/getUserProfile";
-import CoworkingSpace from "@/db/models/CoworkingSpace";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { dbConnect } from "@/db/dbConnect";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
 export default async function DashboardPage() {
-    
-    const addCoworkingSpace = async (addCoworkingSpaceForm:FormData)=>{
-        "use server"
-        const name = addCoworkingSpaceForm.get("name")
-        const description = addCoworkingSpaceForm.get("desc")
-        const picture = addCoworkingSpaceForm.get("picture")
-        const address = addCoworkingSpaceForm.get("address")
-        const district = addCoworkingSpaceForm.get("district")
-        const province = addCoworkingSpaceForm.get("province")
-        const postalcode = addCoworkingSpaceForm.get("postalcode")
-        const tel = addCoworkingSpaceForm.get("tel")
-        const open_close_time = addCoworkingSpaceForm.get("open_close_time")
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) return null;
+
+    const addReservation = async (reservationForm: FormData) => {
+        "use server";
+        const apptDate = reservationForm.get("apptDate");
+        const user = reservationForm.get("user");
+        const coworkingSpaceName = reservationForm.get("coworkingSpaceName");
+        const coworkingSpaceId = reservationForm.get("coworkingSpaceId");
+        const numOfHours = reservationForm.get("numOfHours");
+        const startTime = reservationForm.get("startTime");
+        const endTime = reservationForm.get("endTime");
+        const pickupDate = reservationForm.get("pickupDate");
 
         try {
-            await dbConnect()
-            const car = await CoworkingSpace.create({
-                "name":name,
-                "description" : description,
-                "picture" : picture,
-                "address" : address,
-                "district" : district,               
-                "province" : province,              
-                "postalcode" : postalcode,
-                "tel" : tel,
-                "open_close_time" : open_close_time
-            })
+            await dbConnect();
+            // Assuming you have a Reservation model. Replace with your actual model.
+            const Reservation = await import("@/db/models/Reservation").then(
+                (module) => module.default
+            );
+            await Reservation.create({
+                apptDate: apptDate,
+                user: user,
+                coworkingSpaceName: coworkingSpaceName,
+                coworkingSpaceId: coworkingSpaceId,
+                numOfHours: numOfHours,
+                startTime: startTime,
+                endTime: endTime,
+                pickupDate: pickupDate,
+            });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-        revalidateTag("CoworkingSpaces")
-        redirect("/coworking-spaces")
-    }
-
-    const session = await getServerSession(authOptions)
-    if(!session || !session.user.token) return null;
-    
-    const profile = await getUserProfile(session.user.token)
-    var createdAt = new Date(profile.data.createdAt);
+        revalidateTag("Reservations"); // Adjust the tag as needed
+        redirect("/reservations"); // Adjust the redirect path as needed
+    };
 
     return (
         <main className="bg-slate-100 m-5 p-5">
-            <div className="text-2xl">{profile.data.name}</div>
-            <table className="table-auto border-separate border-spacing-2"><tbody>
-                <tr><td>Email</td><td>{profile.data.email}</td></tr>
-                <tr><td>Tel.</td><td>{profile.data.telephone_number}</td></tr>
-                <tr><td>Member Since</td><td>{createdAt.toString()}</td></tr>
-            </tbody>
-
+            <div className="text-2xl">{session?.user.name}</div>
+            <table className="table-auto border-separate border-spacing-2">
+                <tbody>
+                    <tr><td>Email</td><td>{session.user.email}</td></tr>
+                    <tr><td>Tel.</td><td>{session.user.telephone_number}</td></tr>
+                    <tr><td>Member Since</td><td>{session.user.createdAt ? new Date(session.user.createdAt).toString() : "N/A"}</td></tr>
+                </tbody>
             </table>
-            {
-                (profile.data.role=="admin")?
-                <form action={addCoworkingSpace}>
-                    <div className="text-xl text-blue-700">Create Co-working Space Name</div>
+            {session.user.role && session.user.role.toLowerCase() === "admin" ? (
+                <form action={addReservation}>
+                    <div className="text-xl text-blue-700">Create Reservation</div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="name">
-                            Name</label>
-                        <input type="text" required id="name" name="name" placeholder="Co-working-Space name"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="apptDate">Appt Date</label>
+                        <input type="datetime-local" required id="apptDate" name="apptDate" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="desc">
-                        Description</label>
-                        <input type="text" required id="desc" name="desc" placeholder="Co-working-Space Description"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="user">User ID</label>
+                        <input type="text" required id="user" name="user" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="picture">
-                        Picture</label>
-                        <input type="text" required id="picture" name="picture" placeholder="URL"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="coworkingSpaceName">Coworking Space Name</label>
+                        <input type="text" required id="coworkingSpaceName" name="coworkingSpaceName" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="address">
-                        Address</label>
-                        <input type="text" required id="address" name="address" placeholder="Co-working-Space Address"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="coworkingSpaceId">Coworking Space ID</label>
+                        <input type="text" required id="coworkingSpaceId" name="coworkingSpaceId" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="district">
-                        District</label>
-                        <input type="text" required id="district" name="district" placeholder="Co-working-Space District"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="numOfHours">Num of Hours</label>
+                        <input type="number" required id="numOfHours" name="numOfHours" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="province">
-                        Province</label>
-                        <input type="text" required id="province" name="province" placeholder="Co-working-Space Province"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="startTime">Start Time</label>
+                        <input type="text" required id="startTime" name="startTime" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="postalcode">
-                        Postalcode</label>
-                        <input type="text" required id="postalcode" name="postalcode" placeholder="Co-working-Space postalcode"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="endTime">End Time</label>
+                        <input type="text" required id="endTime" name="endTime" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="tel">
-                        Tel.</label>
-                        <input type="text" required id="tel" name="tel" placeholder="Co-working-Space tel."
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="pickupDate">Pickup Date</label>
+                        <input type="date" required id="pickupDate" name="pickupDate" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
-                    <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="open_close_time">
-                        open_close_time</label>
-                        <input type="text" required id="open_close_time" name="open_close_time" placeholder="Co-working-Space open_close_time"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2
-                        text-gray-700 focus:outline-none focus:border-blue-400"
-                        />
-                    </div>
-                    
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-700
-                        text-white p-2 rounded">
-                            Add New Coworking Space</button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">Add Reservation</button>
                 </form>
-                :null
-            }
+            ) : null}
         </main>
-    )
+    );
 }
