@@ -2,7 +2,6 @@ import { getCoworkingSpaces } from "@/libs/getCoworkingSpaces"
 import CarCatalog from "@/components/CarCatalog"
 import {Suspense} from 'react'
 import { LinearProgress } from "@mui/material"
-import CarPanel from "@/components/CarPanel"
 import { CoworkingSpaceJson } from "../../../../interfaces"
 
 export default async function Car() {
@@ -14,8 +13,7 @@ export default async function Car() {
             <CarCatalog coworkingSpaceJson={coworkingSpaces}/>
             </Suspense>
             <hr className="my-10"/>
-            <h1 className="text-xl font-medium">TRY Client-Side Co-working Space Panel</h1>
-            <CarPanel/>
+          
         </main>
     )
 }

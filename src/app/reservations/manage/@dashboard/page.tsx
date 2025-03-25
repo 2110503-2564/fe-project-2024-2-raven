@@ -7,6 +7,8 @@ import React from 'react';
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions);
+console.log(session?.user.telephone_number,"abcde");
+
     if (!session || !session.user) return null;
 
     const addReservation = async (reservationForm: FormData) => {
@@ -78,6 +80,10 @@ export default async function DashboardPage() {
                         <input type="number" required id="numOfHours" name="numOfHours" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
                     <div className="flex items-center w-1/2 my-2">
+                        <label className="w-auto block text-gray-700 pr-4" htmlFor="pickupDate">Date</label>
+                        <input type="date" required id="pickupDate" name="pickupDate" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
+                    </div>
+                    <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="startTime">Start Time</label>
                         <input type="text" required id="startTime" name="startTime" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
@@ -85,10 +91,7 @@ export default async function DashboardPage() {
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="endTime">End Time</label>
                         <input type="text" required id="endTime" name="endTime" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                     </div>
-                    <div className="flex items-center w-1/2 my-2">
-                        <label className="w-auto block text-gray-700 pr-4" htmlFor="pickupDate">Pickup Date</label>
-                        <input type="date" required id="pickupDate" name="pickupDate" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
-                    </div>
+                    
                     <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">Add Reservation</button>
                 </form>
             ) : null}

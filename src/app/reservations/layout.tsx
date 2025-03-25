@@ -1,11 +1,29 @@
-import styles from './reservations.module.css'
-import ReservationMenu from "@/components/ReservationMenu"
+import styles from './reservations.module.css';
+import Menu from "@/components/LeftMenu";
+import React from 'react';
 
-export default function ReservationLayout({children}:{children:React.ReactNode}){
-    return (
-        <div className={styles.sectionlayout}>
-            <ReservationMenu/>
-            {children}
-        </div>
-    )
+interface ReservationLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function ReservationLayout({ children }: ReservationLayoutProps) {
+  return (
+    <div className={styles.sectionlayout}>
+      <Menu />
+      {children}
+      <a href="/reservations/manage">
+        <button
+          style={{
+            backgroundColor: 'blue',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '5px',
+          }}
+        >
+          Manage Reservations
+        </button>
+      </a>
+    </div>
+  );
 }
