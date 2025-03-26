@@ -20,7 +20,9 @@ export const cartSlice = createSlice({
             const remainItems = state.coworkingSpaceItems.filter(obj => {
                 return ((obj.coworkingSpaceName !== action.payload.coworkingSpaceName)
                 || (obj.startTime!==action.payload.startTime)
-                ||(obj.endTime!==action.payload.endTime));
+                ||(obj.endTime!==action.payload.endTime)
+                ||(obj.customerName!==action.payload.customerName)
+                ||(obj.customerRole!==action.payload.customerRole));
             })
             state.coworkingSpaceItems=remainItems
         }

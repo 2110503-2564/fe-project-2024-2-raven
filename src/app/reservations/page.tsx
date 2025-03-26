@@ -7,21 +7,27 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addReservation } from "@/redux/features/cartSlice";
 import { ReservationItem } from "../../../interfaces";
+import {useSession} from 'next-auth/react'
 
 export default function Reservations () {
 
     const urlParams = useSearchParams()
     const cid = urlParams.get('id')
     const name = urlParams.get('name')
+    const {data:session}= useSession();
+    const dispatch = useDispatch<AppDispatch>();
 console.log(urlParams,"urlparams")
 console.log(cid,"cid is")
 console.log("name is",name)
 
-    const dispatch = useDispatch<AppDispatch>()
 
     const [pickupDate, setPickupDate] = useState<Dayjs | null>(null);
     const [startTime, setStartTime] = useState<string>(''); // HH:mm format
     const [endTime, setEndTime] = useState<string>(''); // HH:mm format
+    const customerName = session?.user?.name || urlParams.get('customerName') || 'Guest';
+    const customerRole = session?.user?.role || urlParams.get('customerRole') || 'guest';
+
+console.log("customer name is", customerName);
 
     const makeReservation = () => {
   
@@ -38,6 +44,8 @@ console.log("name is",name)
                 pickupDate: startDateTime.toISOString(), // Use ISO format
                 startTime: startTime,
                 endTime: endTime,
+                customerName:customerName,
+                customerRole:customerRole,
             }
             dispatch(addReservation(item))
         }

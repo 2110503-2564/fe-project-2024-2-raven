@@ -23,6 +23,8 @@ export default function ReservationCart() {
                     <div className="text-sm">End Time {reservationItem.endTime}
                       </div>
                     <div className="text-md">Duration: {reservationItem.numOfHours} hours</div>
+                    
+                    <div className="text-md">customerName: {reservationItem.customerName} </div>
                     <button className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-1
                     text-white shadow-sm" onClick={()=>dispatch(removeReservation(reservationItem))}>
                         Remove from Cart

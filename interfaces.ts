@@ -29,6 +29,8 @@ numOfHours: number,
 pickupDate:string,
 startTime: string,
 endTime: string,
+customerName:string,
+customerRole:string
 }
 
 export interface User {
