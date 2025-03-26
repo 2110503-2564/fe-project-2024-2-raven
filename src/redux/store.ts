@@ -1,19 +1,18 @@
-import cartSlice from './features/cartSlice';
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import { useSelector,TypedUseSelectorHook } from 'react-redux';
-import { persistReducer, FLUSH,REHYDRATE,PAUSE,PERSIST,PURGE,REGISTER } from 'redux-persist';
+import cartReducer from './features/cartSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { useSelector, TypedUseSelectorHook } from 'react-redux';
+import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { WebStorage } from 'redux-persist/lib/types';
 
 function createPersisStorage(): WebStorage {
     const isServer = typeof window === 'undefined';
-    // Returns noop storage.
     if (isServer) {
         return {
-            getItem () {
+            getItem() {
                 return Promise.resolve(null);
             },
-            setItem () {
+            setItem() {
                 return Promise.resolve();
             },
             removeItem() {
@@ -24,25 +23,29 @@ function createPersisStorage(): WebStorage {
     return createWebStorage('local');
 }
 
-const storage = createPersisStorage()
+const storage = createPersisStorage();
 
 const persistConfig = {
     key: "rootPersist",
-    storage
-}
-const rootReducer = combineReducers({cartSlice})
-const reduxPersistedReducer = persistReducer(persistConfig, rootReducer)
+    storage,
+};
 
+const rootReducer = combineReducers({
+    cartSlice: cartReducer, // Corrected reducer usage
+    // Add other reducers here if you have them.
+});
+
+const reduxPersistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: reduxPersistedReducer,
-    middleware: (getDefaultMiddleware)=>getDefaultMiddleware({
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
-            ignoredActions: [FLUSH,REHYDRATE,PAUSE,PERSIST,PURGE,REGISTER],
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-    })
-})
+    }),
+});
 
-export type RootState=ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export const useAppSelector:TypedUseSelectorHook<RootState> = useSelector
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector; 

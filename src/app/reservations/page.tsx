@@ -13,6 +13,9 @@ export default function Reservations () {
     const urlParams = useSearchParams()
     const cid = urlParams.get('id')
     const name = urlParams.get('name')
+console.log(urlParams,"urlparams")
+console.log(cid,"cid is")
+console.log("name is",name)
 
     const dispatch = useDispatch<AppDispatch>()
 
