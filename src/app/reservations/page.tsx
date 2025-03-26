@@ -31,7 +31,7 @@ console.log("customer name is", customerName);
 
     const makeReservation = () => {
         if (!cid || !name || !pickupDate || !startTime || !endTime) {
-            alert("Please fill in the form.");
+            alert("Please fill up the form or reselect co-working space.");
             return; // Stop the function if any field is missing
         }
   
