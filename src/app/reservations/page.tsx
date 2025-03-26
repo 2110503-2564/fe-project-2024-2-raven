@@ -30,6 +30,10 @@ console.log("name is",name)
 console.log("customer name is", customerName);
 
     const makeReservation = () => {
+        if (!cid || !name || !pickupDate || !startTime || !endTime) {
+            alert("Please fill in the form.");
+            return; // Stop the function if any field is missing
+        }
   
         if (cid && name && pickupDate && startTime && endTime) {
             const startDateTime = dayjs(pickupDate).set('hour', parseInt(startTime.split(':')[0])).set('minute', parseInt(startTime.split(':')[1]));
